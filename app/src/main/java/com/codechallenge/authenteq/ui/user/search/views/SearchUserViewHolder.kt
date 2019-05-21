@@ -1,5 +1,6 @@
 package com.codechallenge.authenteq.ui.user.search.views
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.item_search_user.view.item_search_user_tit
 
 class SearchUserViewHolder(parent: View) : RecyclerView.ViewHolder(parent) {
 
-    // PUBLIC API ---
+    @SuppressLint("SetTextI18n")
     fun bindTo(user: User?) {
         user?.let {
             loadImage(it.avatarUrl, itemView.image)

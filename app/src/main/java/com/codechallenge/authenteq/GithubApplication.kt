@@ -11,7 +11,6 @@ open class GithubApplication : Application() {
         configureDi()
     }
 
-    // CONFIGURATION ---
     open fun configureDi() =
         startKoin(this, provideComponent())
 

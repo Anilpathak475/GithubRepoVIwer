@@ -8,15 +8,12 @@ import kotlinx.android.synthetic.main.item_search_user_network_state.view.item_s
 import kotlinx.android.synthetic.main.item_search_user_network_state.view.item_search_user_network_state_title as retryTitle
 
 class SearchUserNetworkStateViewHolder(parent: View) : RecyclerView.ViewHolder(parent) {
-
-    // PUBLIC API ---
     fun bindTo(networkState: NetworkState?, callback: SearchUserAdapter.OnClickListener) {
         hideViews()
         setVisibleRightViews(networkState)
         itemView.retryButton.setOnClickListener { callback.onClickRetry() }
     }
 
-    // UTILS ---
     private fun hideViews() {
         itemView.retryButton.visibility = View.GONE
         itemView.retryTitle.visibility = View.GONE

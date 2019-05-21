@@ -6,13 +6,13 @@ import com.codechallenge.authenteq.model.User
 class UserRepository(private val service: UserService) {
 
     private suspend fun search(query: String, page: Int, perPage: Int, sort: String) =
-        service.search(query, page, perPage, sort).await()
+        service.searchAsync(query, page, perPage, sort).await()
 
-    private suspend fun getDetail(login: String) = service.getDetail(login).await()
+    private suspend fun getDetail(login: String) = service.getDetailAsync(login).await()
 
-    private suspend fun getRepos(login: String) = service.getRepos(login).await()
+    private suspend fun getRepos(login: String) = service.getReposAsync(login).await()
 
-    private suspend fun getFollowers(login: String) = service.getFollowers(login).await()
+    private suspend fun getFollowers(login: String) = service.getFollowersAsync(login).await()
 
     suspend fun searchUsersWithPagination(query: String, page: Int, perPage: Int, sort: String): List<User> {
         if (query.isEmpty()) return listOf()

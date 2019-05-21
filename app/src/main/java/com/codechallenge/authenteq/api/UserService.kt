@@ -12,7 +12,7 @@ import retrofit2.http.Query
 interface UserService {
 
     @GET("search/users")
-    fun search(
+    fun searchAsync(
         @Query("q") query: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
@@ -22,21 +22,21 @@ interface UserService {
     ): Deferred<Result>
 
     @GET("users/{username}")
-    fun getDetail(
+    fun getDetailAsync(
         @Path("username") username: String,
         @Query("client_id") clientId: String = BuildConfig.GithubClientId,
         @Query("client_secret") clientSecret: String = BuildConfig.GithubClientSecret
     ): Deferred<User>
 
     @GET("users/{username}/repos")
-    fun getRepos(
+    fun getReposAsync(
         @Path("username") username: String,
         @Query("client_id") clientId: String = BuildConfig.GithubClientId,
         @Query("client_secret") clientSecret: String = BuildConfig.GithubClientSecret
     ): Deferred<List<Repository>>
 
     @GET("users/{username}/followers")
-    fun getFollowers(
+    fun getFollowersAsync(
         @Path("username") username: String,
         @Query("per_page") perPage: Int = 2,
         @Query("client_id") clientId: String = BuildConfig.GithubClientId,

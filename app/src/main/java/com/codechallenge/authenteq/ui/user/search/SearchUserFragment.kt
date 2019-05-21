@@ -6,30 +6,21 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.bumptech.glide.Glide
 import com.codechallenge.authenteq.R
 import com.codechallenge.authenteq.api.NetworkState
 import com.codechallenge.authenteq.base.BaseFragment
 import com.codechallenge.authenteq.extensions.onQueryTextChange
 import com.codechallenge.authenteq.ui.user.search.views.SearchUserAdapter
-import com.codechallenge.authenteq.utils.convertFilterToIndex
-import com.codechallenge.authenteq.utils.convertIndexToFilter
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlinx.android.synthetic.main.fragment_search_user.fragment_search_user_empty_list_button as emptyListButton
 import kotlinx.android.synthetic.main.fragment_search_user.fragment_search_user_empty_list_image as emptyListImage
 import kotlinx.android.synthetic.main.fragment_search_user.fragment_search_user_empty_list_title as emptyListTitle
-import kotlinx.android.synthetic.main.fragment_search_user.fragment_search_user_fab as fab
 import kotlinx.android.synthetic.main.fragment_search_user.fragment_search_user_progress as progressBar
 import kotlinx.android.synthetic.main.fragment_search_user.fragment_search_user_rv as recyclerView
 
-/**
- * A simple [Fragment] subclass.
- *
- */
+
 class SearchUserFragment : BaseFragment(), SearchUserAdapter.OnClickListener {
 
     // FOR DATA ---
@@ -68,15 +59,13 @@ class SearchUserFragment : BaseFragment(), SearchUserAdapter.OnClickListener {
 
     private fun configureOnClick() {
         emptyListButton.setOnClickListener { viewModel.refreshAllList() }
-        fab.setOnClickListener { showDialogWithFilterItems { viewModel.refreshAllList() } }
     }
 
-    // CONFIGURATION ---
     private fun configureMenu(menu: Menu) {
         val searchMenuItem = menu.findItem(R.id.action_search)
         val possibleExistingQuery = viewModel.getCurrentQuery()
         val searchView = searchMenuItem.actionView as SearchView
-        if (possibleExistingQuery != null && !possibleExistingQuery.isEmpty()) {
+        if (possibleExistingQuery.isNotEmpty()) {
             searchMenuItem.expandActionView()
             searchView.setQuery(possibleExistingQuery, false)
             searchView.clearFocus()
@@ -123,20 +112,5 @@ class SearchUserFragment : BaseFragment(), SearchUserAdapter.OnClickListener {
 
     private fun updateUIWhenLoading(size: Int, networkState: NetworkState?) {
         progressBar.visibility = if (size == 0 && networkState == NetworkState.RUNNING) View.VISIBLE else View.GONE
-    }
-
-    private fun showDialogWithFilterItems(callback: () -> Unit) {
-        MaterialDialog(this.activity!!).show {
-            title(R.string.filter_popup_title)
-            listItemsSingleChoice(
-                R.array.filters,
-                initialSelection = convertFilterToIndex(viewModel.getFilterWhenSearchingUsers())
-            ) { _, index, _ ->
-                viewModel.saveFilterWhenSearchingUsers(convertIndexToFilter(index))
-            }
-            positiveButton {
-                callback()
-            }
-        }
     }
 }

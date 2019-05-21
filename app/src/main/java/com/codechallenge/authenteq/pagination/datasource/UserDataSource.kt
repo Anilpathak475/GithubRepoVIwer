@@ -20,9 +20,8 @@ class UserDataSource(
     private var supervisorJob = SupervisorJob()
     private val networkState = MutableLiveData<NetworkState>()
     private var retryQuery: (() -> Any)? =
-        null // Keep reference of the last query (to be able to retry it if necessary)
+        null
 
-    // OVERRIDE ---
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, User>) {
         retryQuery = { loadInitial(params, callback) }
         executeQuery(1, params.requestedLoadSize) {
@@ -40,7 +39,6 @@ class UserDataSource(
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, User>) {}
 
-    // UTILS ---
     private fun executeQuery(page: Int, perPage: Int, callback: (List<User>) -> Unit) {
         networkState.postValue(NetworkState.RUNNING)
         scope.launch(getJobErrorHandler() + supervisorJob) {
@@ -59,10 +57,9 @@ class UserDataSource(
 
     override fun invalidate() {
         super.invalidate()
-        supervisorJob.cancelChildren()   // Cancel possible running job to only keep last result searched by user
+        supervisorJob.cancelChildren()
     }
 
-    // PUBLIC API ---
 
     fun getNetworkState(): LiveData<NetworkState> =
         networkState

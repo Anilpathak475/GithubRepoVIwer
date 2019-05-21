@@ -9,7 +9,6 @@ import com.codechallenge.authenteq.ui.user.search.SearchUserFragment
 
 class MainActivity : AppCompatActivity() {
 
-    // OVERRIDE ---
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,8 +18,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         return configureToolbar(menu)
     }
-
-    // CONFIGURATION ---
 
     private fun configureAndShowFragment() {
         var fragment = supportFragmentManager.findFragmentById(R.id.activity_main_container) as SearchUserFragment?
